@@ -1,0 +1,6 @@
+platform :ios, '7.0'
+workspace 'KaleORM-Example'
+xcodeproj 'KaleORM-Example'
+link_with 'KaleORM-Example', 'KaleORM-ExampleTests'
+
+pod 'FMDB'

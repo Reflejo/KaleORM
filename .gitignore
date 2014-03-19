@@ -1,0 +1,22 @@
+build/
+*.pbxuser
+*.perspectivev3
+*.mode2v3
+*.mode1v3
+*.perspective
+*~.nib
+.DS_Store
+build/
+*.pyc
+Pods/
+*.lock
+
+#ignore private workspace stuff added by Xcode4
+xcuserdata
+
+## generic files to ignore
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
