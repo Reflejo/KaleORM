@@ -220,13 +220,19 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  * is calling this instance, for example: [KAPerson objectForId:1] will returns the KAPerson
  * found with id = 1 (if any).
  */
-+ (id)objectForId:(NSInteger)objectId
++ (id)objectForId:(NSInteger)objectId from:(FMDatabase *)db
 {
     NSString *q = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE id = %%d",
                    [self sqlRows], [[self class] tableName]];
     
-    FMResultSet *set = [[KADatabaseManager db] executeQueryWithFormat:q, objectId];
+    db = db ?: [KADatabaseManager db];
+    FMResultSet *set = [db executeQueryWithFormat:q, objectId];
     return [set next] ? [self objectFromResultSet:set]: nil;
+}
+
++ (id)objectForId:(NSInteger)objectId
+{
+    return [self objectForId:objectId from:nil];
 }
 
 /*
@@ -329,6 +335,39 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 {
     db = db ?: [KADatabaseManager db];
     [db executeUpdate:[NSString stringWithFormat:@"ANALYZE %@", self.tableName]];
+}
+
+/*
+ * Returns a valid query for creating an INDEX on all the given properties, if the property is
+ * prepended by "-", then the order of index for that property will be descending. Note that the
+ * properties are not the database fields but the name of the property on the class. 
+ *
+ * Example: properties: ["annualRate", "-id"] will create an index for (annual_rate ASC, id DESC).
+ */
++ (NSString *)indexSQLForProperties:(NSArray *)properties
+{
+    NSDictionary *schema = [self _schema];
+    
+    NSMutableArray *fields = [NSMutableArray arrayWithCapacity:[properties count]];
+    NSMutableString *indexName = [NSMutableString stringWithString:[self tableName]];
+    for (NSString *property in properties)
+    {
+        char indexOrder = [property characterAtIndex:0];
+        BOOL isDESC = (indexOrder == '-');
+
+        NSString *_property = property;
+        if (indexOrder == '-' || indexOrder == '+')
+            _property = [property substringFromIndex:1];
+
+        NSString *fieldName = [schema[_property] fieldName];
+
+        [indexName appendFormat:@"_%@_%@", fieldName, isDESC ? @"desc": @"asc"];
+        [fields addObject:[NSString stringWithFormat:@"%@ %@",
+                           fieldName, isDESC ? @"DESC": @"ASC"]];
+    }
+
+    return [NSString stringWithFormat:@"CREATE INDEX %@ ON %@(%@)",
+            indexName, [self tableName], [fields componentsJoinedByString:@","]];
 }
 
 #pragma mark -

@@ -27,6 +27,17 @@
 @implementation KADateField
 
 /*
+ * Creates a field instance and set defaultNow flag to TRUE so the CREATE TABLE SQL
+ * includes the options to default the field to current_timestamp when NULL
+ */
++ (id)fieldWithDefaultNow
+{
+    KADateField *field = [super field];
+    [field setDefaultNow:YES];
+    return field;
+}
+
+/*
  * This method returns the value based on a result set casted to NSDate.
  */
 - (NSDate *)valueFromSet:(FMResultSet *)set
@@ -34,6 +45,14 @@
     return [set dateForColumnIndex:(int)self.columnIndex];
 }
 
+/*
+ * Crafts and returns the field syntax for CREATE TABLE, including type and options.
+ */
+- (NSString *)rowSQL
+{
+    NSString *now = self.defaultNow ? @" DEFAULT current_timestamp": @"";
+    return [NSString stringWithFormat:@"%@%@", [super rowSQL], now];
+}
 /*
  * SQLite datetime type according to http://www.sqlite.org/datatype3.html.
  */

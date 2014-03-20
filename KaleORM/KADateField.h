@@ -10,4 +10,12 @@
 
 @interface KADateField : KABaseField
 
+/*
+ * Creates a field instance and set defaultNow flag to TRUE so the CREATE TABLE SQL
+ * includes the options to default the field to current_timestamp when NULL
+ */
++ (id)fieldWithDefaultNow;
+
+@property (nonatomic, assign) BOOL defaultNow;
+
 @end

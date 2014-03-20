@@ -48,8 +48,22 @@
  */
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
+    // In order to ensure multi threading, if the current thread is not the main thread,
+    // we have to create a new queue.
     if (!self.relationInstance)
-        self.relationInstance = [self.relationClass objectForId:self.id];
+    {
+        if ([NSThread isMainThread])
+        {
+            self.relationInstance = [self.relationClass objectForId:self.id];
+        }
+        else
+        {
+            [[KADatabaseManager queue] inDatabase:^(FMDatabase *db)
+            {
+                self.relationInstance = [self.relationClass objectForId:self.id from:db];
+            }];
+        }
+    }
 
     [anInvocation invokeWithTarget:self.relationInstance];
 }

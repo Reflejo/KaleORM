@@ -75,6 +75,7 @@ extern NSString * const kKANotificationObjectKey;
  * is calling this instance, for example: [KAPerson objectForId:1] will returns the KAPerson
  * found with id = 1 (if any).
  */
++ (id)objectForId:(NSInteger)objectId from:(FMDatabase *)db;
 + (id)objectForId:(NSInteger)objectId;
 
 /*
@@ -94,6 +95,14 @@ extern NSString * const kKANotificationObjectKey;
  */
 + (BOOL)isAbstractClass;
 
+/*
+ * Returns a valid query for creating an INDEX on all the given properties, if the property is
+ * prepended by "-", then the order of index for that property will be descending. Note that the
+ * properties are not the database fields but the name of the property on the class.
+ *
+ * Example: properties: ["annualRate", "-id"] will create an index for (annual_rate ASC, id DESC).
+ */
++ (NSString *)indexSQLForProperties:(NSArray *)properties;
 
 @property (nonatomic, assign, readonly) NSInteger id;
 
