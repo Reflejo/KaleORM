@@ -55,7 +55,7 @@ typedef NS_OPTIONS(NSInteger, KAFieldOptions)
  *
  * You MUST override this method.
  */
-- (id)valueOnSet:(FMResultSet *)set;
+- (id)valueFromSet:(FMResultSet *)set;
 
 /*
  * This method allows subclasses to specify the keyPath where the value is located while

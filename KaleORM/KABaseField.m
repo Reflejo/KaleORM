@@ -111,10 +111,10 @@
  *
  * You MUST override this method.
  */
-- (id)valueOnSet:(FMResultSet *)set
+- (id)valueFromSet:(FMResultSet *)set
 {
     [NSException raise:NSObjectNotAvailableException
-                format:@"valueOnSet: method MUST be present on field subclasses %@", [self class]];
+                format:@"valueFromSet: method MUST be present on field subclasses %@", [self class]];
     return nil;
 }
 

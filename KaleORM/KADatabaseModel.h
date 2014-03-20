@@ -78,6 +78,17 @@ extern NSString * const kKANotificationObjectKey;
 + (id)objectForId:(NSInteger)objectId;
 
 /*
+ * Creates an instance of the calling class by parsing every property following the +schema
+ * definition.
+ */
++ (id)objectFromResultSet:(FMResultSet *)set;
+
+/*
+ * Returns an array of normalized objects from a result set.
+ */
++ (NSArray *)objectsFromResultSet:(FMResultSet *)set;
+
+/*
  * This method is used when creating complex models that subclass other models. If you DON'T
  * want the subclass to be created as a table on the database, you must set this flag to YES.
  */

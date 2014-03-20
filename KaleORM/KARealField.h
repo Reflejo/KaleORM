@@ -21,10 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "KABaseField.h"
 
-#import "KAIntegerField.h"
-#import "KAForeignKey.h"
-#import "KATextField.h"
-#import "KADateField.h"
-#import "KAURLField.h"
-#import "KARealField.h"
+@interface KARealField : KABaseField
+
+@end

@@ -43,6 +43,10 @@
 		D123AF2418D914E9009E77B9 /* KAFriendsDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D123AF2318D914E9009E77B9 /* KAFriendsDatabase.m */; };
 		D123AF2818DA1F52009E77B9 /* KAProxyRelationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D123AF2718DA1F52009E77B9 /* KAProxyRelationModel.m */; };
 		D123AF2918DA1FFB009E77B9 /* KAProxyRelationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D123AF2718DA1F52009E77B9 /* KAProxyRelationModel.m */; };
+		D163041818DA7DCE004659A2 /* KARealField.m in Sources */ = {isa = PBXBuildFile; fileRef = D163041518DA7DCE004659A2 /* KARealField.m */; };
+		D163041918DA7DCE004659A2 /* KARealField.m in Sources */ = {isa = PBXBuildFile; fileRef = D163041518DA7DCE004659A2 /* KARealField.m */; };
+		D163041A18DA7DCE004659A2 /* KAURLField.m in Sources */ = {isa = PBXBuildFile; fileRef = D163041718DA7DCE004659A2 /* KAURLField.m */; };
+		D163041B18DA7DCE004659A2 /* KAURLField.m in Sources */ = {isa = PBXBuildFile; fileRef = D163041718DA7DCE004659A2 /* KAURLField.m */; };
 		E6458FBC711B47A6A85EBF0F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B36F99CDC8D0471792932CB1 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +107,10 @@
 		D123AF2318D914E9009E77B9 /* KAFriendsDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KAFriendsDatabase.m; sourceTree = "<group>"; };
 		D123AF2618DA1F52009E77B9 /* KAProxyRelationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KAProxyRelationModel.h; sourceTree = "<group>"; };
 		D123AF2718DA1F52009E77B9 /* KAProxyRelationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KAProxyRelationModel.m; sourceTree = "<group>"; };
+		D163041418DA7DCE004659A2 /* KARealField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KARealField.h; sourceTree = "<group>"; };
+		D163041518DA7DCE004659A2 /* KARealField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KARealField.m; sourceTree = "<group>"; };
+		D163041618DA7DCE004659A2 /* KAURLField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KAURLField.h; sourceTree = "<group>"; };
+		D163041718DA7DCE004659A2 /* KAURLField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KAURLField.m; sourceTree = "<group>"; };
 		D967F9F95CC74E558FEC6A3F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -249,6 +257,10 @@
 				D123AF1C18D8F7D5009E77B9 /* KADateField.h */,
 				D123AF1D18D8F7D5009E77B9 /* KADateField.m */,
 				D123AF0118D8F420009E77B9 /* KAForeignKey.h */,
+				D163041418DA7DCE004659A2 /* KARealField.h */,
+				D163041518DA7DCE004659A2 /* KARealField.m */,
+				D163041618DA7DCE004659A2 /* KAURLField.h */,
+				D163041718DA7DCE004659A2 /* KAURLField.m */,
 				D123AF0218D8F420009E77B9 /* KAForeignKey.m */,
 				D123AF0318D8F420009E77B9 /* KAIntegerField.h */,
 				D123AF0418D8F420009E77B9 /* KAIntegerField.m */,
@@ -427,9 +439,11 @@
 				D123AF0C18D8F420009E77B9 /* KADatabaseManager.m in Sources */,
 				D123AF1418D8F420009E77B9 /* KATextField.m in Sources */,
 				D123AF1018D8F420009E77B9 /* KAForeignKey.m in Sources */,
+				D163041818DA7DCE004659A2 /* KARealField.m in Sources */,
 				D123AF0A18D8F420009E77B9 /* KABaseField.m in Sources */,
 				D123AF1618D8F420009E77B9 /* NSString+SQLHelpers.m in Sources */,
 				D123AF0E18D8F420009E77B9 /* KADatabaseModel.m in Sources */,
+				D163041A18DA7DCE004659A2 /* KAURLField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,11 +453,13 @@
 			files = (
 				D123AF2118D8F862009E77B9 /* KAFriendship.m in Sources */,
 				D123AEF118D8F38F009E77B9 /* KaleORM_ExampleTests.m in Sources */,
+				D163041918DA7DCE004659A2 /* KARealField.m in Sources */,
 				D123AF2918DA1FFB009E77B9 /* KAProxyRelationModel.m in Sources */,
 				D123AF0F18D8F420009E77B9 /* KADatabaseModel.m in Sources */,
 				D123AF0D18D8F420009E77B9 /* KADatabaseManager.m in Sources */,
 				D123AF1518D8F420009E77B9 /* KATextField.m in Sources */,
 				D123AF1E18D8F7D5009E77B9 /* KADateField.m in Sources */,
+				D163041B18DA7DCE004659A2 /* KAURLField.m in Sources */,
 				D123AF2418D914E9009E77B9 /* KAFriendsDatabase.m in Sources */,
 				D123AF1B18D8F6CE009E77B9 /* KAPerson.m in Sources */,
 				D123AF0B18D8F420009E77B9 /* KABaseField.m in Sources */,

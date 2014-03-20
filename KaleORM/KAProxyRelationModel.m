@@ -33,7 +33,7 @@
  */
 + (id)relationProxyForClass:(Class)aClass pk:(NSInteger)pk
 {
-    NSAssert(pk <= 0, @"You MUST specify a pk for %@", aClass);
+    NSAssert(pk > 0, @"You MUST specify a pk for the proxy relation on %@", aClass);
     
     KAProxyRelationModel *model = [[self alloc] init];
     [model setRelationClass:aClass];

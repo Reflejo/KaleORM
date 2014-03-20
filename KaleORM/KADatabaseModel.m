@@ -138,7 +138,11 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     return [fields componentsJoinedByString:@","];
 }
 
-+ (id)objectFromSet:(FMResultSet *)set
+/*
+ * Creates an instance of the calling class by parsing every property following the +schema
+ * definition.
+ */
++ (id)objectFromResultSet:(FMResultSet *)set
 {
     KADatabaseModel *object = [[self alloc] init];
     NSDictionary *schema = [[self class] _schema];
@@ -147,7 +151,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     for (NSString *propertyName in schema)
     {
         KABaseField *field = schema[propertyName];
-        [object setValue:[field valueOnSet:set] forKey:propertyName];
+        [object setValue:[field valueFromSet:set] forKey:propertyName];
     }
     object->ignoreFieldChanges = NO;
 
@@ -222,7 +226,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
                    [self sqlRows], [[self class] tableName]];
     
     FMResultSet *set = [[KADatabaseManager db] executeQueryWithFormat:q, objectId];
-    return [set next] ? [self objectFromSet:set]: nil;
+    return [set next] ? [self objectFromResultSet:set]: nil;
 }
 
 /*
@@ -331,18 +335,6 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 #pragma mark ------------------------------------------------------------
 #pragma mark "Abstract" methods, subclasses MUST implement these methods.
 #pragma mark ------------------------------------------------------------
-
-/*
- * This method should return an instance of the subclass created by using a row from a query
- * response. You MUST override this method.
- */
-+ (id)objectFromResultSet:(FMResultSet *)set
-{
-    [[NSException exceptionWithName:NSObjectNotAvailableException
-                             reason:@"You MUST override objectFromResultSet: when creating a db "
-                                     "object." userInfo:nil] raise];
-    return nil;
-}
 
 /*
  * Returns the map of all instance properties to fields, for example:

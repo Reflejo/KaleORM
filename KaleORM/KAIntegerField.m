@@ -29,7 +29,7 @@
 /*
  * Returns the value based on a resultSet casted to NSNumber.
  */
-- (id)valueOnSet:(FMResultSet *)set
+- (id)valueFromSet:(FMResultSet *)set
 {
     return [NSNumber numberWithInt:[set intForColumnIndex:(int)self.columnIndex]];
 }

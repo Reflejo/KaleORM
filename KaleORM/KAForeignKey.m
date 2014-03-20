@@ -43,9 +43,9 @@
  * Gets the primary key value from the set, and if it's not null we create an empty proxy model
  * which will be in charge of lazy query the database when properties are accesed.
  */
-- (id)valueOnSet:(FMResultSet *)set
+- (id)valueFromSet:(FMResultSet *)set
 {
-    NSInteger pk = [set intForColumnIndex:self.columnIndex];    
+    NSInteger pk = [set intForColumnIndex:(int)self.columnIndex];
     return pk > 0 ? [KAProxyRelationModel relationProxyForClass:self.relation pk:pk]: nil;
 }
 

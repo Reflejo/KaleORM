@@ -29,7 +29,7 @@
 /*
  * This method returns the value based on a result set casted to NSDate.
  */
-- (NSDate *)valueOnSet:(FMResultSet *)set
+- (NSDate *)valueFromSet:(FMResultSet *)set
 {
     return [set dateForColumnIndex:(int)self.columnIndex];
 }

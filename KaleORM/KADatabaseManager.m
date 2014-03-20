@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#import "NSString+SQLHelpers.h"
 #import "KADatabaseManager.h"
 
 #define kTraceDatabaseQueries   YES
@@ -50,8 +51,15 @@
         instance = [[super alloc] init];
         NSURL *dir = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
                                                              inDomains:NSUserDomainMask] lastObject];
-        
-        [instance setDbPath:[[dir URLByAppendingPathComponent:@"Pastrami.sqlite"] path]];
+
+        // The class names will usually looks like <PREFIX><DatabaseName>Manager, so we'll convert
+        // that format to prefix_databasename.
+        NSString *databaseName = [NSStringFromClass([self class]) mutableCopy];
+        databaseName = [databaseName stringByReplacingOccurrencesOfString:@"Manager"
+                                                               withString:@""];
+
+        databaseName = [NSString stringWithFormat:@"%@.sql", [databaseName underscoreString]];
+        [instance setDbPath:[[dir URLByAppendingPathComponent:databaseName] path]];
     });
     
     return instance;

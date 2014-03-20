@@ -21,10 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
-#import "KAIntegerField.h"
-#import "KAForeignKey.h"
-#import "KATextField.h"
-#import "KADateField.h"
-#import "KAURLField.h"
 #import "KARealField.h"
+#import "FMResultSet.h"
+
+@implementation KARealField
+
+/*
+ * Returns the value based on a resultSet casted to NSString.
+ */
+- (id)valueFromSet:(FMResultSet *)set
+{
+    return [NSNumber numberWithDouble:[set doubleForColumnIndex:(int)self.columnIndex]];
+}
+
+/*
+ * SQLite string type according to http://www.sqlite.org/datatype3.html.
+ */
++ (NSString *)SQLType
+{
+    return @"REAL";
+}
+
+
+@end

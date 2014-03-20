@@ -29,7 +29,7 @@
 /*
  * Returns the value based on a resultSet casted to NSString.
  */
-- (id)valueOnSet:(FMResultSet *)set
+- (id)valueFromSet:(FMResultSet *)set
 {
     return [set stringForColumnIndex:(int)self.columnIndex];
 }
