@@ -32,6 +32,7 @@ extern NSString * const kKANotificationObjectModified;
 /* Keys used on the notification userInfo dictionary. */
 extern NSString * const kKANotificationObjectExternalKey;
 extern NSString * const kKANotificationObjectKey;
+extern NSString * const kKANotificationObjectPropertiesKey;
 
 
 @interface KADatabaseModel : NSObject

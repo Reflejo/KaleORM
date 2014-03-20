@@ -31,6 +31,7 @@ NSString * const kKANotificationObjectRemoved = @"kKANotificationObjectRemoved";
 NSString * const kKANotificationObjectInserted = @"kKANotificationObjectInserted";
 NSString * const kKANotificationObjectModified = @"kKANotificationObjectModified";
 
+NSString * const kKANotificationObjectPropertiesKey = @"kKANotificationObjectPropertiesKey";
 NSString * const kKANotificationObjectExternalKey = @"kKANotificationObjectKeyExternal";
 NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 
@@ -252,6 +253,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     NSMutableArray *args = [NSMutableArray arrayWithCapacity:[schema count]];
     NSMutableArray *questionMarks = [NSMutableArray arrayWithCapacity:[schema count]];
     NSMutableArray *cols = [NSMutableArray arrayWithCapacity:[schema count]];
+    NSMutableArray *dirtyProperties = [NSMutableArray arrayWithCapacity:[schema count]];
     for (NSString *propertyName in schema)
     {
         // Do not include fields that hasn't been modified when UPDATing.
@@ -265,16 +267,17 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
         id object = [self valueForKeyPath:propertyName];
         if ([field isKindOfClass:[KAForeignKey class]])
             [object persistInto:db silent:silent];
-            
+        
         [args addObject:[self valueForKeyPath:[field propertyKeyPath]] ?: [NSNull null]];
         [questionMarks addObject:@"?"];
         [cols addObject:[field fieldName]];
+        [dirtyProperties addObject:propertyName];
     }
 
     // Check if we have something to do (does any row actually change??)
     if ([cols count] == 0)
         return; // Yay! Nothing to do
-    
+
     if (isUpdating)
     {
         NSString *query = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE id = %d",
@@ -282,7 +285,8 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
                            (int)self.id];
         
         if ([db executeUpdate:query withArgumentsInArray:args] && !silent)
-            [self notifyObjectChange:kKANotificationObjectModified userInfo:nil];
+            [self notifyObjectChange:kKANotificationObjectModified
+                            userInfo:@{kKANotificationObjectPropertiesKey: dirtyProperties}];
     }
     else
     {
