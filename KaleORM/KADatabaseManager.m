@@ -39,8 +39,7 @@
 @implementation KADatabaseManager
 
 /*
- * Singleton implementation of ALAsset library. We always keep an instance of the
- * assets library live.
+ * Singleton implementation of our manager. WARNING: This only works when using 1 database.
  */
 + (id)defaultManager
 {
