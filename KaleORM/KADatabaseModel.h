@@ -66,12 +66,6 @@ extern NSString * const kKANotificationObjectPropertiesKey;
 + (NSString *)createSQL;
 
 /*
- * Checks whether the table is in a "dirty" state. When this is true, it means that the
- * current state of the instance is different from the database row.
- */
-- (BOOL)isDirty;
-
-/*
  * Gets the object with the given primary key. Note that "the object" is the object that
  * is calling this instance, for example: [KAPerson objectForId:1] will returns the KAPerson
  * found with id = 1 (if any).

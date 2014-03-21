@@ -427,20 +427,4 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     return _schema;
 }
 
-/*
- * Checks whether the table is in a "dirty" state. When this is true, it means that the
- * current state of the instance is different from the database row.
- */
-- (BOOL)isDirty
-{
-    NSDictionary *schema = [[self class] _schema];
-    for (NSString *propertyName in schema)
-    {
-        if ([schema[propertyName] isDirty])
-            return YES;
-    }
-    
-    return NO;
-}
-
 @end
