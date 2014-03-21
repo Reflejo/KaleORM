@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2013 Kicksend (http://kicksend.com)
+// Copyright (c) 2014 Kicksend (http://kicksend.com)
 //
 // Created by Martin Conte Mac Donell (Reflejo@gmail.com)
 //
