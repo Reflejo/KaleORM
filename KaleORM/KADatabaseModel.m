@@ -381,7 +381,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 
 /*
  * Returns the map of all instance properties to fields, for example:
- * {"id": [KAIntegerField field], "name": [KSTextField field]}. You MUST override this method.
+ * {"id": [KAIntegerField field], "name": [KATextField field]}. You MUST override this method.
  */
 + (NSDictionary *)schema
 {

@@ -65,7 +65,7 @@
 }
 
 /*
- * Migrations to run. You SHOULD create a new item on the root array per schema version.
+ * Migrations to run. You MUST create a new item on the root array per schema version.
  *
  * NOTE: We use [*] as prefix when the result of the query is a row. In that case we'll use
  * -executeQuery: instead of -executeUpdate: because executing updates with a query that 
@@ -73,16 +73,9 @@
  */
 - (NSArray *)migrations
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-string-concatenation"
-    return @[
-             
-        /* Version 0 */
-        @[
-            @"[*] PRAGMA journal_mode = WAL"
-        ],
-    ];
-#pragma clang diagnostic pop
+    [NSException raise:NSObjectNotAvailableException
+                format:@"You MUST implement migrations on your database class"];
+    return nil;
 }
 
 #pragma mark -
