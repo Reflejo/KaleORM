@@ -48,7 +48,7 @@
  */
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
-    // In order to ensure multi threading, if the current thread is not the main thread,
+    // In order to ensure multi threading safety, if the current thread is not the main thread,
     // we have to create a new queue.
     if (!self.relationInstance)
     {
