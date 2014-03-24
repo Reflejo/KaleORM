@@ -1,0 +1,154 @@
+html, body {
+  font-family: Proxima_Nova_Regular;
+  font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+  background: #fafafa;
+  margin: 0;
+  padding: 0;
+}
+
+.inner-wrapper {
+  padding: 0 20px;
+}
+
+header {
+  background: #60a17b;
+  top: 0;
+  position: fixed;
+  height: 2px;
+  width: 100%;
+}
+.menu {
+  width: 240px; 
+  float: left;
+  position: fixed;
+  padding: 1em 0em 1.5em 2em;
+  font-family: Proxima_Nova_SemiBold !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+  .menu #logo {
+    background: -webkit-image-set(url(../img/logo.png) 1x, url(../img/logo@2x.png) 2x) no-repeat;
+    width: 117px;
+    height: 19px;
+    margin-bottom: 30px;
+  }
+
+@media only screen and (max-width:40.063em) {
+  .menu { display: none !important; }
+  #docs { margin-left: 0px !important; }
+}
+
+/******** Markdown *********/
+#docs {
+  color: #788191;
+  margin-top: 17px;
+  padding-top: 1em;
+  font-size: 15px;
+  margin-left: 240px; 
+  line-height: 24px;
+}
+
+  #docs code {
+    overflow-x: scroll;
+    font-size: 14px;
+    line-height: 19px;
+    border: 1px solid #dde0e2;
+    background: #ebeef1;
+    width: 100%;
+    display: block;
+    padding: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 25px 0;
+  }
+
+  #docs li {
+    list-style-type: none;
+  }
+
+  #docs em {
+    font-family: monospace !important;
+    color: black;
+    font-style: normal;
+  }
+
+  #docs .sql {
+    background: green;
+    padding: 0 5px;
+    color: white;
+    font-weight: 600; 
+    text-decoration: none;
+    border-radius: 8px;
+  }
+
+  #docs h2 {
+    color: #373f4b;
+    font-weight: normal;
+    font-size: 30px;
+    margin: 0;
+  }
+
+  #docs hr {
+    margin: 40px 0;
+    background: #e6e9ed;
+    border-style: none;
+    height: 1px;
+  }
+
+/******** Navigation Menu *********/
+nav ul {  
+  list-style: none;  
+  font-size: 14px;  
+  padding: 0;
+}
+
+  nav ul li {
+    padding: 8px 0;
+    font-weight: 500;
+  }
+
+    nav ul li.active {
+      border-left: 1px solid #526c8f;
+    }
+
+    nav ul li a {
+      margin-left: 20px;
+      text-decoration: none;  
+      color: #373f4b;
+    }
+
+    nav ul li.active a {
+      color: #526c8f;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;  
+    }
+
+
+/********** Custom fonts *************/
+@font-face {
+  font-family: 'Proxima_Nova_Regular';
+  src: url('../fonts/proxima-nova/proximanova-reg-webfont.eot');
+  src: local('â˜º'), 
+       url('../fonts/proxima-nova/proximanova-reg-webfont.woff') format('woff'), 
+       url('../fonts/proxima-nova/proximanova-reg-webfont.ttf') format('truetype'), 
+       url('../fonts/proxima-nova/proximanova-reg-webfont.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Proxima_Nova_SemiBold';
+  src: url('../fonts/proxima-nova/proximanova-sbold-webfont.eot');
+  src: local('â˜º'), 
+       url('../fonts/proxima-nova/proximanova-sbold-webfont.woff') format('woff'), 
+       url('../fonts/proxima-nova/proximanova-sbold-webfont.ttf') format('truetype'),
+       url('../fonts/proxima-nova/proximanova-sbold-webfont.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

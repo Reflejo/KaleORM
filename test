@@ -1,0 +1,89 @@
+Introduction
+------------
+
+KaleORM allows you to map Objective-C objects to database tables and it gives you a database-abstraction API that lets you create, retrieve, update and delete objects. This help document (and many parts of the API itself) is based on the django project. Therefore, any similarities on the text are purely coincidental ( That's a lie <= LIE <= NOT). You'll see across this document that we use "[SQL: SELECT * FROM example]" to show exactly at what point the SQL statement is executed and how the query would looks like.
+
+---------------------------------------
+
+Creating objects
+----------------
+
+o represent database-table data in Objective-C objects, KaleORM uses an intuitive system: A model class represents a database table, and an instance of that class represents a particular record in the database table.
+
+To create an object, instantiate the model class and then set the properties as any regular Objective-C object.
+
+```objective-c
+Person *person = [[Person alloc] init];
+person.name = @"Martin Conte Mac Donell";
+person.age = 30;
+[person persist]; // SQL is performed here. [SQL: INSERT INTO person(name, age) VALUES("Martin Conte Mac Donell", 30);]
+```
+
+This performs an INSERT SQL statement behind the scenes. KaleORM doesn't hit the database until you explicitly call persist.
+
+---------------------------------------
+
+Saving changes to objects
+-------------------------
+
+To save changes to an object that's already in the database, use persist.
+
+Take for example this person object, which is an instance of *Person*. This
+example changes its name and update its record in the database.
+
+```objective-c
+person.name = @"Dranben Mil";
+[person persist]; // SQL is performed here. [SQL: UPDATE person SET name = "Dranben Mil" WHERE id = ..;]
+```
+
+This performs an UPDATE SQL statement behind the scenes. KaleORM doesn't hit the database until you explicitly call persist.
+
+###Saving KAForeignKey fields
+
+Updating a *KAForeignKey* field works exactly the same way as saving a normal field - simply assign an object of the right type to the field in question. This example updates the *jobCompany* attribute of a *Person* instance entry assuming appropriate instances of *Person* and *Company* are already saved to the database (so we can retrieve them below):
+
+```objective-c
+Company *company = [Company objectForId:1];
+Person *person = [Person objectForId:1];
+person.jobCompany = company;
+[person persist]; // SQL is performed here. [SQL: UPDATE person SET company_id = .. WHERE id = ..;]
+```
+
+
+---------------------------------------
+
+Retrieving objects
+------------------
+
+To retrieve objects from your database, construct a *KAQuerySet* using the *objects* property from your model class.
+
+A *KAQuerySet* represents a collection of objects from your database. It can have zero, one or many filters. Filters narrow down the query results based on the given parameters. In SQL terms, a *KAQuerySet* equates to a SELECT statement, and a filter is a limiting clause such as WHERE or LIMIT.
+
+You get a *KAQuerySet* by accesing the *objects* property directly via the model class. For example, the following statement returns a *KAQuerySet* that contains all *Person* objects in the database:
+
+```objective-c
+KAQuerySet *set = [[Person objects] all];
+for (Person *person in set) // SQL is performed here. [SQL: SELECT * FROM person]
+  ...
+```
+
+Note that *KAQuerySet*s query execution is lazy, meaning that the query will
+only be executed as needed. In this case when the set is iterated.
+
+###Retrieving specific objects with filters
+
+To create such a subset, you refine the initial *KAQuerySet*, adding filter conditions. The two most common ways to refine a *KAQuerySet* are:
+
+* _- (KAQuerySet \*)filterBy:(NSDictionary \*)filters;_
+* _- (KAQuerySet \*)excludeBy:(NSDictionary \*)filters;_
+
+The first one returns a *KAQuerySet* containing objects that match the given lookup parameters and the second one contains objects that do not match.
+
+The result of refining a *KAQuerySet* is itself a *KAQuerySet*, so it's possible to chain refinements together. For example:
+
+```objective-c
+KAQuerySet *set = [[[Person objects] filterBy:@{@"name": @"Martin"}]
+                                    excludeBy:@{@"age__lte": @30}];
+for (Person *person in set) // SQL is performed here. [SQL: SELECT * FROM person WHERE name = "Martin" AND age <= 30]
+  ...
+```
