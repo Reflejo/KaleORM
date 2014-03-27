@@ -228,7 +228,10 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     
     db = db ?: [KADatabaseManager db];
     FMResultSet *set = [db executeQueryWithFormat:q, objectId];
-    return [set next] ? [self objectFromResultSet:set]: nil;
+
+    id object = [set next] ? [self objectFromResultSet:set]: nil;
+    [set close];
+    return object;
 }
 
 + (id)objectForId:(NSInteger)objectId
@@ -264,9 +267,9 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
             continue;
 
         // Insert or update relations.
-        id object = [self valueForKeyPath:propertyName];
-        if ([field isKindOfClass:[KAForeignKey class]])
-            [object persistInto:db silent:silent];
+//        id object = [self valueForKeyPath:propertyName];
+//        if ([field isKindOfClass:[KAForeignKey class]])
+//            [object persistInto:db silent:silent];
         
         [args addObject:[self valueForKeyPath:[field propertyKeyPath]] ?: [NSNull null]];
         [questionMarks addObject:@"?"];

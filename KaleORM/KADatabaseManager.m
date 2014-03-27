@@ -57,7 +57,7 @@
         databaseName = [databaseName stringByReplacingOccurrencesOfString:@"Manager"
                                                                withString:@""];
 
-        databaseName = [NSString stringWithFormat:@"%@.sql", [databaseName underscoreString]];
+        databaseName = [NSString stringWithFormat:@"%@.db", [databaseName underscoreString]];
         [instance setDbPath:[[dir URLByAppendingPathComponent:databaseName] path]];
     });
     
