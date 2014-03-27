@@ -228,7 +228,10 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     
     db = db ?: [KADatabaseManager db];
     FMResultSet *set = [db executeQueryWithFormat:q, objectId];
-    return [set next] ? [self objectFromResultSet:set]: nil;
+
+    id result = [set next] ? [self objectFromResultSet:set]: nil;
+    [set close];
+    return result;
 }
 
 + (id)objectForId:(NSInteger)objectId
@@ -265,7 +268,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 
         // Insert or update relations.
         id object = [self valueForKeyPath:propertyName];
-        if ([field isKindOfClass:[KAForeignKey class]])
+        if ([field isKindOfClass:[KAForeignKey class]] && [object id] == 0)
             [object persistInto:db silent:silent];
         
         [args addObject:[self valueForKeyPath:[field propertyKeyPath]] ?: [NSNull null]];
@@ -348,7 +351,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  *
  * Example: properties: ["annualRate", "-id"] will create an index for (annual_rate ASC, id DESC).
  */
-+ (NSString *)indexSQLForProperties:(NSArray *)properties
++ (NSString *)indexSQLForProperties:(NSArray *)properties isUnique:(BOOL)unique
 {
     NSDictionary *schema = [self _schema];
     
@@ -370,8 +373,14 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
                            fieldName, isDESC ? @"DESC": @"ASC"]];
     }
 
-    return [NSString stringWithFormat:@"CREATE INDEX %@ ON %@(%@)",
+    NSString *strUnique = unique ? @"UNIQUE": @"";
+    return [NSString stringWithFormat:@"CREATE %@ INDEX %@ ON %@(%@)", strUnique,
             indexName, [self tableName], [fields componentsJoinedByString:@","]];
+}
+
++ (NSString *)indexSQLForProperties:(NSArray *)properties
+{
+    return [self indexSQLForProperties:properties isUnique:NO];
 }
 
 #pragma mark -

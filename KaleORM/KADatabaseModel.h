@@ -97,6 +97,7 @@ extern NSString * const kKANotificationObjectPropertiesKey;
  *
  * Example: properties: ["annualRate", "-id"] will create an index for (annual_rate ASC, id DESC).
  */
++ (NSString *)indexSQLForProperties:(NSArray *)properties isUnique:(BOOL)unique;
 + (NSString *)indexSQLForProperties:(NSArray *)properties;
 
 @property (nonatomic, assign, readonly) NSInteger id;
