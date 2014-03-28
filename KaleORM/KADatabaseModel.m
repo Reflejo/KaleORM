@@ -267,9 +267,9 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
             continue;
 
         // Insert or update relations.
-        //id object = [self valueForKeyPath:propertyName];
-        //if ([field isKindOfClass:[KAForeignKey class]] && [object id] == 0)
-        //    [object persistInto:db silent:silent];
+        id object = [self valueForKeyPath:propertyName];
+        if ([field isKindOfClass:[KAForeignKey class]] && [object id] == 0)
+            [object persistInto:db silent:silent];
 
         [args addObject:[self valueForKeyPath:[field propertyKeyPath]] ?: [NSNull null]];
         [questionMarks addObject:@"?"];
