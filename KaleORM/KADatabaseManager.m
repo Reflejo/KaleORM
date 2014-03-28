@@ -24,7 +24,7 @@
 #import "NSString+SQLHelpers.h"
 #import "KADatabaseManager.h"
 
-#define kTraceDatabaseQueries   YES
+#define kTraceDatabaseQueries   (DEBUG || FALSE)
 
 @interface KADatabaseManager () {
     FMDatabase *db;
@@ -114,7 +114,7 @@
     NSInteger toVersion = [migrations count];
     NSInteger fromVersion = [res intForColumnIndex:0];
 
-#ifdef kTraceDatabaseQueries
+#if kTraceDatabaseQueries
     NSLog(@"Migrating from %d to %d", (int)fromVersion, (int)toVersion);
     NSLog(@"Database path: %@", [self dbPath]);
 #endif
