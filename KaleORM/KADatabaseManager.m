@@ -24,7 +24,12 @@
 #import "NSString+SQLHelpers.h"
 #import "KADatabaseManager.h"
 
-#define kTraceDatabaseQueries   (DEBUG || FALSE)
+#if defined(DEBUG)
+#define kTraceDatabaseQueries   ( DEBUG || FALSE )
+#else
+#define kTraceDatabaseQueries   FALSE
+#endif
+
 
 @interface KADatabaseManager () {
     FMDatabase *db;
