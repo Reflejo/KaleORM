@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26F0EB6F18EA599400C52DAF /* PropertyKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 26F0EB6E18EA599400C52DAF /* PropertyKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		26F0EB7018EA599400C52DAF /* PropertyKit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 26F0EB6E18EA599400C52DAF /* PropertyKit.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B9AF6BB502514665ADEF69A4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B36F99CDC8D0471792932CB1 /* libPods.a */; };
 		D123AEC318D8F38F009E77B9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D123AEC218D8F38F009E77B9 /* Foundation.framework */; };
 		D123AEC518D8F38F009E77B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D123AEC418D8F38F009E77B9 /* CoreGraphics.framework */; };
@@ -61,6 +63,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26F0EB6D18EA599400C52DAF /* PropertyKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyKit.h; sourceTree = "<group>"; };
+		26F0EB6E18EA599400C52DAF /* PropertyKit.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PropertyKit.mm; sourceTree = "<group>"; };
 		B36F99CDC8D0471792932CB1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D123AEBF18D8F38F009E77B9 /* KaleORM-Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KaleORM-Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D123AEC218D8F38F009E77B9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -140,6 +144,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26F0EB6B18EA598D00C52DAF /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				26F0EB6C18EA599400C52DAF /* PropertyKit */,
+			);
+			name = Vendors;
+			sourceTree = "<group>";
+		};
+		26F0EB6C18EA599400C52DAF /* PropertyKit */ = {
+			isa = PBXGroup;
+			children = (
+				26F0EB6D18EA599400C52DAF /* PropertyKit.h */,
+				26F0EB6E18EA599400C52DAF /* PropertyKit.mm */,
+			);
+			name = PropertyKit;
+			path = Vendors/PropertyKit;
+			sourceTree = "<group>";
+		};
 		D123AEB618D8F38F009E77B9 = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +245,7 @@
 		D123AEFA18D8F420009E77B9 /* KaleORM */ = {
 			isa = PBXGroup;
 			children = (
+				26F0EB6B18EA598D00C52DAF /* Vendors */,
 				D123AF2518D929A3009E77B9 /* Fields */,
 				D123AEFD18D8F420009E77B9 /* KADatabaseManager.h */,
 				D123AEFE18D8F420009E77B9 /* KADatabaseManager.m */,
@@ -434,6 +457,7 @@
 				D123AEDC18D8F38F009E77B9 /* KAViewController.m in Sources */,
 				D123AF1218D8F420009E77B9 /* KAIntegerField.m in Sources */,
 				D123AED318D8F38F009E77B9 /* KAAppDelegate.m in Sources */,
+				26F0EB6F18EA599400C52DAF /* PropertyKit.mm in Sources */,
 				D123AF2818DA1F52009E77B9 /* KAProxyRelationModel.m in Sources */,
 				D123AECF18D8F38F009E77B9 /* main.m in Sources */,
 				D123AF0C18D8F420009E77B9 /* KADatabaseManager.m in Sources */,
@@ -454,6 +478,7 @@
 				D123AF2118D8F862009E77B9 /* KAFriendship.m in Sources */,
 				D123AEF118D8F38F009E77B9 /* KaleORM_ExampleTests.m in Sources */,
 				D163041918DA7DCE004659A2 /* KARealField.m in Sources */,
+				26F0EB7018EA599400C52DAF /* PropertyKit.mm in Sources */,
 				D123AF2918DA1FFB009E77B9 /* KAProxyRelationModel.m in Sources */,
 				D123AF0F18D8F420009E77B9 /* KADatabaseModel.m in Sources */,
 				D123AF0D18D8F420009E77B9 /* KADatabaseManager.m in Sources */,
