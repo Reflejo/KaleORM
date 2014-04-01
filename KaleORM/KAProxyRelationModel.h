@@ -33,7 +33,7 @@
 + (id)relationProxyForClass:(Class)aClass pk:(NSInteger)pk;
 
 @property (nonatomic, assign) Class relationClass;
-@property (nonatomic, weak) id relationInstance;
+@property (nonatomic, strong) id relationInstance;
 @property (nonatomic, assign) NSInteger id;
 
 @end

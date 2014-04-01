@@ -401,4 +401,22 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     return _schema;
 }
 
+/*
+ * We have to set all swizzled properties to nil, otherwise they'd leak memory.
+ */
+- (void)dealloc
+{
+    for (NSString *propertyName in [[self class] _schema])
+    {
+        NSString *setterName = [NSString stringWithFormat:@"set%c%@:",
+                                toupper([propertyName characterAtIndex:0]),
+                                [propertyName substringFromIndex:1]];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self performSelector:NSSelectorFromString(setterName) withObject:nil];
+#pragma clang diagnostic pop
+    }
+}
+
 @end
