@@ -350,7 +350,7 @@ static __inline__ void _PKSetIvar(id obj, Ivar ivar, T value)
 
 static __inline__ void _PKNotifyPropertyValue(id self, const char *pName, id value)
 {
-    CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, pName, kCFStringEncodingUTF8);
+    CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, pName, kCFStringEncodingASCII);
     [self observeValueForProperty:(NSString *)name value:value];
     CFRelease(name);
 }
@@ -514,7 +514,9 @@ static void _PKObjectSetter(id self, SEL _cmd, id newObject)
             return NO;
     }
 
-    return class_replaceMethod(self, NSSelectorFromString(setterName), imp, [signature UTF8String]);
+    IMP method = class_replaceMethod(self, NSSelectorFromString(setterName), imp,
+                                     [signature UTF8String]);
+    return (method != NULL);
 }
 
 @end

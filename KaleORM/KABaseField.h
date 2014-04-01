@@ -65,6 +65,7 @@ typedef NS_OPTIONS(NSInteger, KAFieldOptions)
 - (NSString *)propertyKeyPath;
 
 @property (nonatomic, strong, readonly) NSString *fieldName;
+@property (nonatomic, strong, readonly) NSString *ivarName;
 @property (nonatomic, assign, readonly) KAFieldOptions options;
 
 @property (nonatomic, assign) NSInteger columnIndex;

@@ -85,8 +85,11 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  */
 - (void)observeValueForProperty:(NSString *)name value:(id)value
 {
+    if (ignoreFieldChanges)
+        return;
+    
     NSDictionary *schema = [[self class] _schema];
-    [schema[name] setIsDirty:!ignoreFieldChanges];
+    [schema[name] setIsDirty:YES];
 }
 
 /* 
@@ -408,14 +411,12 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 {
     for (NSString *propertyName in [[self class] _schema])
     {
-        NSString *setterName = [NSString stringWithFormat:@"set%c%@:",
-                                toupper([propertyName characterAtIndex:0]),
-                                [propertyName substringFromIndex:1]];
+        char ivarStr[128] = "_";
+        strcat(ivarStr, [propertyName UTF8String]);
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self performSelector:NSSelectorFromString(setterName) withObject:nil];
-#pragma clang diagnostic pop
+        Ivar ivar = class_getInstanceVariable([self class], ivarStr);
+        if (ivar)
+            object_setIvar(self, ivar, nil);
     }
 }
 
