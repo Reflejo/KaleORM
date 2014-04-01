@@ -59,6 +59,29 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
             [field setTableName:[self tableName]];
         }
         objc_setAssociatedObject(self, "_isPrepared", @YES, OBJC_ASSOCIATION_RETAIN);
+        
+        for (NSString *propertyName in schema)
+        {
+            NSString *setterName = [NSString stringWithFormat:@"set%@%@:",
+                                    [[propertyName substringToIndex:1] uppercaseString],
+                                    [propertyName substringFromIndex:1]];
+
+            objc_property_t property = class_getProperty(self, [setterName UTF8String]);
+            NSLog(@"Trying: %@ <%@>", setterName, self);
+            if (property == NULL)
+                continue;
+
+            const char *attrs = property_getAttributes(property);
+            
+            NSLog(@"MAGIA NEGRA %@ <%@>", setterName, self);
+            class_replaceMethod(self, NSSelectorFromString(setterName), (IMP)myNewGetter, attrs);
+            
+            //            [self addObserver:self
+            //                   forKeyPath:propertyName
+            //                      options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+            //                      context:nil];
+        }
+
     }
 }
 
@@ -71,26 +94,47 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     return NO;
 }
 
+id myNewGetter(id self, SEL _cmd, void *test)
+{
+    NSLog(@"LOLOLOLOLOLOL");
+    return nil;
+}
+
 /*
  * Initializes the object by adding KVO to all the properties. We'll keep track of what columns
  * changed for UPDATEs. Also, we are using method swizzling for foreign keys. We are doing this
  * because foreign keys are lazy loaded only when needed.
  */
-- (id)init
+//- (id)init
+//{
+//    if (self = [super init])
+//    {
+//        NSDictionary *schema = [[self class] _schema];
+//        for (NSString *propertyName in schema)
+//        {
+//            objc_property_t property = class_getProperty([self class], [propertyName cStringUsingEncoding:NSUTF8StringEncoding]);
+//            const char *attrs = property_getAttributes(property);
+//
+//            NSString *setterName = [NSString stringWithFormat:@"set%c%@",
+//                                    toupper([propertyName characterAtIndex:0]),
+//                                    [propertyName substringFromIndex:1]];
+////            NSLog(@"MAGIA NEGRA %@", setterName);
+//            class_replaceMethod([self class], NSSelectorFromString(setterName), (IMP)myNewGetter, attrs);
+//
+////            [self addObserver:self
+////                   forKeyPath:propertyName
+////                      options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+////                      context:nil];
+//        }
+//    }
+//    
+//    return self;
+//}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
-    if (self = [super init])
-    {
-        NSDictionary *schema = [[self class] _schema];
-        for (NSString *propertyName in schema)
-        {
-            [self addObserver:self
-                   forKeyPath:propertyName
-                      options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-                      context:nil];
-        }
-    }
-    
-    return self;
+    NSLog(@"WHAT THE FUCK %@", key);
+    return nil;
 }
 
 /*
@@ -98,10 +142,10 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  */
 - (void)dealloc
 {
-    for (NSString *propertyName in [[self class] _schema])
-    {
-        [self removeObserver:self forKeyPath:propertyName];
-    }
+//    for (NSString *propertyName in [[self class] _schema])
+//    {
+//        [self removeObserver:self forKeyPath:propertyName];
+//    }
 }
 
 #pragma mark -
