@@ -85,7 +85,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  */
 - (void)observeValueForProperty:(NSString *)name value:(id)value
 {
-    if (ignoreFieldChanges)
+    if (ignoreFieldChanges || self.id <= 0)
         return;
     
     NSDictionary *schema = [[self class] _schema];

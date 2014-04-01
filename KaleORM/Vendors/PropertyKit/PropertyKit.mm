@@ -506,6 +506,10 @@ static void _PKObjectSetter(id self, SEL _cmd, id newObject)
             imp = (IMP)(void (*)(id, SEL, float))&_PKNumericSetter<float>;
             break;
 
+        case _C_BOOL:
+            imp = (IMP)(void (*)(id, SEL, BOOL))&_PKNumericSetter<BOOL>;
+            break;
+
         case _C_DBL:
             imp = (IMP)(void (*)(id, SEL, double))&_PKNumericSetter<double>;
             break;
