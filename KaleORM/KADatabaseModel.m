@@ -26,14 +26,12 @@
 #import "KAProxyRelationModel.h"
 #import "NSString+SQLHelpers.h"
 #import "KADatabaseModel.h"
-#import "PropertyKit.h"
 
 NSString * const kKANotificationObjectRemoved = @"kKANotificationObjectRemoved";
 NSString * const kKANotificationObjectInserted = @"kKANotificationObjectInserted";
 NSString * const kKANotificationObjectModified = @"kKANotificationObjectModified";
 
 NSString * const kKANotificationObjectPropertiesKey = @"kKANotificationObjectPropertiesKey";
-NSString * const kKANotificationObjectExternalKey = @"kKANotificationObjectKeyExternal";
 NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 
 @implementation KADatabaseModel {
@@ -83,7 +81,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
 /*
  * Observes if some property has changed. In which case the modified property is mark as dirty.
  */
-- (void)observeValueForProperty:(NSString *)name value:(id)value
+- (void)observeValueForProperty:(NSString *)name value:(id)value oldValue:(id)oldValue
 {
     if (ignoreFieldChanges || self.id <= 0)
         return;
@@ -136,9 +134,17 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     NSMutableDictionary *_userInfo = [userInfo mutableCopy] ?: [NSMutableDictionary dictionary];
     _userInfo[kKANotificationObjectKey] = self;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
-                                                        object:[self class]
-                                                      userInfo:_userInfo];
+    void (^doNotify)(void) = ^
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
+                                                            object:[self class]
+                                                          userInfo:_userInfo];
+    };
+
+    if ([NSThread isMainThread])
+        doNotify();
+    else
+        dispatch_async(dispatch_get_main_queue(), doNotify);
 }
 
 /*
@@ -409,15 +415,7 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
  */
 - (void)dealloc
 {
-    for (NSString *propertyName in [[self class] _schema])
-    {
-        char ivarStr[128] = "_";
-        strcat(ivarStr, [propertyName UTF8String]);
-
-        Ivar ivar = class_getInstanceVariable([self class], ivarStr);
-        if (ivar)
-            object_setIvar(self, ivar, nil);
-    }
+    [self deallocProperties:[[self class] _schema]];
 }
 
 @end

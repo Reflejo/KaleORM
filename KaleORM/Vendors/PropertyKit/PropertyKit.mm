@@ -348,10 +348,10 @@ static __inline__ void _PKSetIvar(id obj, Ivar ivar, T value)
     *(T *)((uintptr_t)obj + ivar_getOffset(ivar)) = value;
 }
 
-static __inline__ void _PKNotifyPropertyValue(id self, const char *pName, id value)
+static __inline__ void _PKNotifyPropertyValue(id self, const char *pName, id value, id oldValue)
 {
     CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, pName, kCFStringEncodingASCII);
-    [self observeValueForProperty:(NSString *)name value:value];
+    [self observeValueForProperty:(NSString *)name value:value oldValue:oldValue];
     CFRelease(name);
 }
 
@@ -372,9 +372,11 @@ static void _PKNumericSetter(id self, SEL _cmd, T newValue)
         {
             _PKSetIvar(self, ivar, newValue);
 
-            CFNumberRef number = CFNumberCreate(kCFAllocatorDefault, CFNumberTraits<T>::type, &newValue);            
-            _PKNotifyPropertyValue(self, property_getName(property), (id)number);
+            CFNumberRef number = CFNumberCreate(kCFAllocatorDefault, CFNumberTraits<T>::type, &newValue);
+            CFNumberRef oldNumber = CFNumberCreate(kCFAllocatorDefault, CFNumberTraits<T>::type, &oldValue);
+            _PKNotifyPropertyValue(self, property_getName(property), (id)number, (id)oldNumber);
             CFRelease(number);
+            CFRelease(oldNumber);
         }
     }
 }
@@ -423,7 +425,7 @@ static void _PKObjectSetter(id self, SEL _cmd, id newObject)
             }
 
             object_setIvar(self, ivar, newObject);
-            _PKNotifyPropertyValue(self, property_getName(property), newObject);
+            _PKNotifyPropertyValue(self, property_getName(property), newObject, oldObject);
 
             if (releaseOldValue)
             {
@@ -521,6 +523,22 @@ static void _PKObjectSetter(id self, SEL _cmd, id newObject)
     IMP method = class_replaceMethod(self, NSSelectorFromString(setterName), imp,
                                      [signature UTF8String]);
     return (method != NULL);
+}
+
+- (void)deallocProperties:(id <NSFastEnumeration>)properties
+{
+    for (NSString *propertyName in properties)
+    {
+        Class cls = [self class];
+        objc_property_t property = class_getProperty(cls, [propertyName UTF8String]);
+        PKPropertyAttributes attributes = PKPropertyAttributesMake(property);
+
+        Ivar ivar = class_getInstanceVariable(cls, attributes.ivarName);
+        BOOL needsRelease = (attributes.setterSemantics == PKPropertySetterSemanticsRetain ||
+                             attributes.setterSemantics == PKPropertySetterSemanticsCopy);
+        if (ivar && needsRelease)
+            [object_getIvar(self, ivar) release];
+    }
 }
 
 @end

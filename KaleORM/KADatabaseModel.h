@@ -23,6 +23,7 @@
 
 #import <Foundation/NSKeyValueCoding.h>
 #import "KADatabaseManager.h"
+#import "PropertyKit.h"
 #import "KATypes.h"
 
 /* Notification types used when a database object is modified, inserted or removed */
@@ -31,7 +32,6 @@ extern NSString * const kKANotificationObjectInserted;
 extern NSString * const kKANotificationObjectModified;
 
 /* Keys used on the notification userInfo dictionary. */
-extern NSString * const kKANotificationObjectExternalKey;
 extern NSString * const kKANotificationObjectKey;
 extern NSString * const kKANotificationObjectPropertiesKey;
 

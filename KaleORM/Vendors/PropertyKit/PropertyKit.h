@@ -99,7 +99,9 @@ PKPropertyAttributes PKPropertyAttributesMake(objc_property_t property);
 #pragma mark - Property Observing
 
 @interface NSObject (PropertyKitObserving)
-- (void)observeValueForProperty:(NSString *)name value:(id)value;
+- (void)observeValueForProperty:(NSString *)name value:(id)value oldValue:(id)oldValue;
+- (void)deallocProperties:(id <NSFastEnumeration>)properties;
+
 @end
 
 @interface NSObject (PropertyKitObservingRegistration)
