@@ -118,7 +118,10 @@ NSString * const kKANotificationObjectKey = @"kKANotificationObjectKey";
     for (NSString *propertyName in schema)
     {
         KABaseField *field = schema[propertyName];
-        [object setValue:[field valueFromSet:set] forKey:propertyName];
+
+        id value = [field valueFromSet:set];
+        if (value)
+            [object setValue:value forKey:propertyName];
     }
     object->ignoreFieldChanges = NO;
 
