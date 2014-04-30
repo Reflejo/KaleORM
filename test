@@ -8,7 +8,7 @@ KaleORM allows you to map Objective-C objects to database tables and it gives yo
 Creating objects
 ----------------
 
-o represent database-table data in Objective-C objects, KaleORM uses an intuitive system: A model class represents a database table, and an instance of that class represents a particular record in the database table.
+To represent database-table data in Objective-C objects, KaleORM uses an intuitive system: A model class represents a database table, and an instance of that class represents a particular record in the database table.
 
 To create an object, instantiate the model class and then set the properties as any regular Objective-C object.
 
